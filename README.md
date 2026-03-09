@@ -78,3 +78,7 @@ This separation makes the codebase easier to maintain, extend, and test.
 UI/UX design for this project is available in Figma:
 
 `https://www.figma.com/design/BsqlCH09mB3rfSQq82qhlJ/Untitled?node-id=0-1&p=f&t=Z3VnLs5lOaaEnaZA-0`
+
+### Preview
+
+![Design Preview](docs/design-preview.png)
