@@ -1,0 +1,23 @@
+# Base image for building the ASP.NET Core app
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /source
+
+# Copy csproj and restore as distinct layers
+COPY TestWebTgBot.sln .
+COPY TestWebTgBot/TestWebTgBot.csproj ./TestWebTgBot/
+RUN dotnet restore
+
+# Copy everything else and build
+COPY TestWebTgBot/. ./TestWebTgBot/
+WORKDIR /source/TestWebTgBot
+RUN dotnet publish -c Release -o /app --no-restore
+
+# Final image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app ./
+ENV ASPNETCORE_URLS=http://*:80
+# Expose HTTP port only; HTTPS is handled by the load balancer or reverse proxy
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "TestWebTgBot.dll"]
